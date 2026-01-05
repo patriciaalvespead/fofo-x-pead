@@ -1,13 +1,14 @@
-
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Compatibilização FoFo x PEAD</title>
+<title>Compatibilização FoFo × PEAD</title>
 <style>
 body { font-family: Arial, sans-serif; background:#f4f6f8; padding:40px;}
-.card { background:#fff; padding:30px; max-width:750px; margin:auto; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,.1);}
+.card { background:#fff; padding:30px; max-width:760px; margin:auto; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,.1);}
 h1 { color:#003366;}
-select, input { padding:8px; margin:8px 0; width:100%;}
+label { font-weight:bold; }
+select, input { padding:8px; margin:6px 0 14px 0; width:100%;}
 button { padding:10px; background:#003366; color:#fff; border:none; cursor:pointer;}
 .result { margin-top:20px; background:#eef4fa; padding:15px; border-left:5px solid #003366;}
 .alerta { background:#ffe0e0; border-left:5px solid #b30000; padding:12px; margin-top:15px;}
@@ -19,9 +20,9 @@ button { padding:10px; background:#003366; color:#fff; border:none; cursor:point
 <div class="card">
 <h1>Compatibilização Ferro Fundido × PEAD</h1>
 
-<label>DN da rede em Ferro Fundido:</label>
+<label>DN da rede em Ferro Fundido (FoFo):</label>
 <select id="dnFofo">
-<option value="">Selecione</option>
+<option value="">Selecione o DN</option>
 <option value="50">DN 50</option>
 <option value="65">DN 65</option>
 <option value="80">DN 80</option>
@@ -35,7 +36,7 @@ button { padding:10px; background:#003366; color:#fff; border:none; cursor:point
 <option value="400">DN 400</option>
 </select>
 
-<label>SDR do tubo PEAD:</label>
+<label>SDR do tubo PEAD (não se aplica ao FoFo):</label>
 <input id="sdr" type="number" placeholder="Ex: 11, 13.6, 17, 26">
 
 <button onclick="calcular()">Validar compatibilidade</button>
@@ -43,10 +44,10 @@ button { padding:10px; background:#003366; color:#fff; border:none; cursor:point
 <div id="resultado" class="result" style="display:none;"></div>
 
 <div class="note">
-<b>Nota técnica:</b><br>
-O DE do FoFo varia conforme norma, fabricante e classe.<br>
+<b>Nota técnica obrigatória:</b><br>
+O FoFo não possui SDR.<br>
 O PEAD não possui DN técnico — apenas DE + SDR.<br>
-Esta tabela só é válida se a conexão de transição for compatível com a faixa de SDR do tubo PEAD.
+A compatibilização só é válida se a conexão de transição suportar a faixa de SDR informada.
 </div>
 </div>
 
@@ -69,21 +70,24 @@ function calcular(){
   const dn = document.getElementById("dnFofo").value;
   const sdr = parseFloat(document.getElementById("sdr").value);
 
-  if(!dn || !sdr){ alert("Preencha DN e SDR."); return; }
+  if(!dn || !sdr){
+    alert("Informe o DN do FoFo e o SDR do PEAD.");
+    return;
+  }
 
   const r = tabela[dn];
   let alerta = "";
 
   if(sdr < 17){
-    alerta = "<div class='alerta'><b>⚠ Atenção:</b> SDR abaixo de 17 exige conexão de transição específica. Muitas conexões padrão NÃO são compatíveis.</div>";
+    alerta = "<div class='alerta'><b>⚠ Atenção:</b> SDR abaixo de 17 exige conexão de transição específica. Muitas conexões padrão NÃO são compatíveis com tubos tão rígidos.</div>";
   }
 
   document.getElementById("resultado").style.display="block";
   document.getElementById("resultado").innerHTML = `
   <b>Resultado técnico:</b><br><br>
-  FoFo: DN ${dn} – Classe 150 / 250<br>
-  DE aproximado FoFo: ${r.deFofo} mm<br>
-  <b>PEAD compatível:</b> DE ${r.pead} mm | SDR ${sdr}
+  Rede existente em FoFo: DN ${dn} – Classe 150 / 250<br>
+  Diâmetro externo aproximado do FoFo: ${r.deFofo} mm<br><br>
+  <b>Tubo PEAD compatível:</b> DE ${r.pead} mm – SDR ${sdr}
   ${alerta}
   `;
 }
