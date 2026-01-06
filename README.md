@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Compatibilização FoFo × PEAD</title>
+  <meta name="description" content="Calculadora técnica para compatibilização entre ferro fundido e PEAD. Converte DN de FoFo em diâmetro externo compatível de PEAD considerando SDR do tubo.">
 <style>
 body { font-family: Arial, sans-serif; background:#f4f6f8; padding:40px;}
 .card { background:#fff; padding:30px; max-width:760px; margin:auto; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,.1);}
@@ -19,6 +20,9 @@ button { padding:10px; background:#003366; color:#fff; border:none; cursor:point
 
 <div class="card">
 <h1>Compatibilização Ferro Fundido × PEAD</h1>
+<p><b>Calculadora de PEAD para compatibilização com ferro fundido.</b>
+Ferramenta para engenheiros e projetistas que precisam converter DN de FoFo em PEAD considerando o SDR do tubo e a faixa de compatibilidade da conexão de transição.</p>
+
 
 <label>DN da rede em Ferro Fundido (FoFo):</label>
 <select id="dnFofo">
